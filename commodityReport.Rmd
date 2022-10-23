@@ -1,0 +1,120 @@
+---
+title: "INFO 550 - World Commodities"
+author: "Grey Skelton"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r load packages, echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(stringr)
+library(gt)
+library(knitr)
+library(cowplot)
+library(magick)
+library(png)
+```
+
+# Introduction
+
+My dataset comes from the [Allen-Unger Global Commodity Prices Databas](http://www.gcpdb.info/). Here is a description of the database:
+
+"This site provides downloadable data (MS Excel .csv format) of prices for many types of food, drink, raw materials, and manufactured goods from the central middle ages to the 20th century, collected largely from sources published in the 19th and 20th centuries. Both the original prices reported and prices in grams of silver per litre are available, as are files giving conversions used for various currencies to generate prices in grams of silver, along with details of the measures used." [source](http://mdr-maa.org/resource/allen-unger-global-commodity-prices-database/)
+
+The database is maintained by Robert C. Allen (Nuffield College, Oxford University) and by Ricjard W. Unger (Department of History, UBC).
+
+### Analysis Objectives
+The objectives of this exploratory analysis are:
+
+1.  To explore the data and discover *what markets* have *prices* for *which commodities* during *what years*.
+2.  To identify a single market and track the prices of a select collection of commodities over time in that market.
+3.  To highlight interesting features of the data to guide further analysis.
+
+# Data set
+```{r, load-data, message=FALSE}
+here::i_am("commodityReport.Rmd")
+commodities <- readRDS(
+  file = here::here("output/data_clean.rds")
+)
+```
+
+
+```{r meta data}
+# Display column names
+var_names <- names(commodities)
+
+# Compute basic summary stats
+n_markets <- n_distinct(commodities$Market)
+n_commodity <- n_distinct(commodities$Commodity)
+min_year <- min(commodities$Item_Years)
+max_year <- max(commodities$Item_Years)
+```
+
+| Variable         | Description
+|:---------------- |---------------|
+| `r var_names[1]`| The type of commodity (wheat, cloth, rice, etc.)
+| `r var_names[2]`| The variety of the commodity, if applicable (brown bread vs. rye bread)              
+| `r var_names[3]`| The location where the commodity is sold             
+| `r var_names[4]`| The source method of measuring the commodity
+| `r var_names[5]`| The standardized measurement unit (1 Maund = 37 kg)        
+| `r var_names[6]`| The original currency used to sell the commodity
+| `r var_names[7]`| The standardized currency (usually convert to grams of silver per litre)
+| `r var_names[8]`| The year of the commodity's price in a certain market
+| `r var_names[9]`| The commodity's non-standardized unit price              
+| `r var_names[10]`| The commodity's standardized unit price                            
+| `r var_names[11]`| Any notes relevant to the entry            
+| `r var_names[12]`| The source price data for the commodity-market-year combination     
+
+# Table
+```{r summary table}
+table_1 <- readRDS(
+  file = here::here("output/tab1.rds")
+)
+table_2 <- readRDS(
+  file = here::here("output/tab2.rds")
+)
+table_3 <- readRDS(
+  file = here::here("output/tab3.rds")
+)
+table_4 <- readRDS(
+  file = here::here("output/tab4.rds")
+)
+
+table_1
+table_2
+table_3
+table_4
+```
+ \
+ \
+**Table 1** shows the ten markets with the largest date range of data.\
+**Table 2** shows the ten markets with the most amount of commodities priced.\
+**Table 3** shows which commodities are priced in the most markets.\
+**Table 4** shows what markets have the most commodity-years. Commodity years take into account both the number of commodities in a market and the amount of years price data exists for that commodity in a particular market.\
+
+
+# Figure
+```{r figure 1, message = F}
+figure_1 <- readRDS(
+  file = here::here("output/fig1.rds")
+)
+figure_1
+```
+
+**Figure 1** shows the change in prices of the ten commodities in England with the most price data. This graph uses a [generalized additive mode](https://stat.ethz.ch/R-manual/R-devel/library/mgcv/html/gam.html) to draw a smoothed line showing the price trend over time. The y-axis of this plot is "Price as a % of First Price". This is calculated by dividing a commodities price in a certain year by the commodity's price at the first year price data for the commodity exists. A horizontal line is shown at 1. This line is a reference for the earliest price of the commodity. \
+\
+
+```{r figure 2, message = F}
+figure_2 <- readRDS(
+  file = here::here("output/fig2.rds")
+)
+figure_2
+```
+
+**Figure 2** is the same as figure 1 except the price of salt is excluded. The price of salt has a huge steep increase in price starting in the mid 18th century. This makes it hard to track the price trends of the other commodities. Perhaps I will investigate this spike in subsequent analysis. 
+
