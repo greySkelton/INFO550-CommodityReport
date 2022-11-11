@@ -21,6 +21,8 @@ To generate the report, you can either run these Rscripts in order:
   
 or you can enter the terminal command `make commodityReport.html`
 
+Additionally, to ensure that all proper packages are available to generate the report, you can enter the terminal command `make install`
+
 ------------------------------------------------------------------------
 
 ## Code description
