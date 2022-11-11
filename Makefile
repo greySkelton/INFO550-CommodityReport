@@ -9,6 +9,10 @@ createFigures: loadData
 	
 loadData: 
 	Rscript code/00_load_data.R
+	
+.PHONY: install
+install:
+	Rscript -e "renv::restore(prompt = FALSE)"
 
 .PHONY: clean
 clean:
