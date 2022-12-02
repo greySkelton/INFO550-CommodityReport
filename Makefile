@@ -16,4 +16,7 @@ install:
 
 .PHONY: clean
 clean:
-	rm -f output/*.rds && rm -f commodityReport.html
+	rm -f output/*.rds && rm -f commodityReport.html && rm -f report/commodityReport.html
+	
+project:
+	docker run -v "/$$(pwd)/report":/project/report gskelton/commodity_project

@@ -8,11 +8,17 @@ title: README
 
 ------------------------------------------------------------------------
 
-## Steps to generate commodityReport.html
+## Steps to generate commodityReport.html *using* from a docker image
 
 The end goal of this project is to produce a nice html report that summarizes prices of select commodities in England over a large time span.  
 
-To generate the report, you can either run these Rscripts in order:
+To generate commodityReport.html from the docker image:   
+
+Run `make project` in the command line. The report will be located at `report/commodityReport.html`.
+
+## Steps to generate commodityReport.html *not* from a docker image
+
+You can either run these Rscripts in order:
 
   - `code/00_load_data.R`
   -  `code/01_make_tables.R`
