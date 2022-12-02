@@ -16,6 +16,8 @@ To generate commodityReport.html from the docker image:
 
 Run `make project` in the command line. The report will be located at `report/commodityReport.html`.
 
+To build the Docker image, run `make build` in the command line.
+
 ## Steps to generate commodityReport.html *not* from a docker image
 
 You can either run these Rscripts in order:

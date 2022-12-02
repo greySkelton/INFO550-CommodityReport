@@ -18,5 +18,8 @@ install:
 clean:
 	rm -f output/*.rds && rm -f commodityReport.html && rm -f report/commodityReport.html
 	
+build:
+	docker build -t gskelton/commodity_project .
+	
 project:
 	docker run -v "/$$(pwd)/report":/project/report gskelton/commodity_project
