@@ -8,7 +8,7 @@ title: README
 
 ------------------------------------------------------------------------
 
-## Steps to generate commodityReport.html *using* from a docker image
+## Steps to generate commodityReport.html *using* a docker image
 
 The end goal of this project is to produce a nice html report that summarizes prices of select commodities in England over a large time span.  
 
